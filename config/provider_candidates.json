@@ -1,0 +1,81 @@
+{
+  "offer": "business-flyer-design",
+  "sale_price": 99,
+  "fulfillment_ceiling": 35,
+  "status": "candidate_roster_not_yet_approved",
+  "candidates": [
+    {
+      "platform": "Upwork",
+      "name": "Pankaj S.",
+      "starting_price": 20,
+      "rating": 5.0,
+      "reviews": 3964,
+      "badge": "Top Rated Plus",
+      "evidence_url": "https://www.upwork.com/services/browse/professional-flyer-design",
+      "status": "shortlist"
+    },
+    {
+      "platform": "Upwork",
+      "name": "Clever A.",
+      "starting_price": 15,
+      "rating": 4.9,
+      "reviews": 683,
+      "badge": "Top Rated Plus",
+      "evidence_url": "https://www.upwork.com/services/browse/professional-flyer-design",
+      "status": "shortlist"
+    },
+    {
+      "platform": "Upwork",
+      "name": "Sanjeewa S.",
+      "starting_price": 25,
+      "rating": 4.9,
+      "reviews": 489,
+      "badge": "Top Rated Plus",
+      "evidence_url": "https://www.upwork.com/services/flyer-design/get/media-kits",
+      "status": "shortlist"
+    },
+    {
+      "platform": "Upwork",
+      "name": "Devindi S.",
+      "starting_price": 15,
+      "rating": 4.9,
+      "reviews": 267,
+      "badge": "Top Rated Plus",
+      "delivery_hours": 24,
+      "evidence_url": "https://www.upwork.com/services/flyer-design/get/media-kits",
+      "status": "shortlist"
+    },
+    {
+      "platform": "Fiverr",
+      "name": "khairuzzaman958",
+      "starting_price": 10,
+      "delivery_hours": 24,
+      "revisions": "unlimited",
+      "print_ready": true,
+      "web_ready": true,
+      "evidence_url": "https://www.fiverr.com/khairuzzaman958/create-modern-flyer-design-for-business-and-events",
+      "status": "backup_candidate"
+    },
+    {
+      "platform": "Fiverr",
+      "name": "sndiip",
+      "starting_price": 10,
+      "rating": 5.0,
+      "reviews": 3,
+      "delivery_hours": 24,
+      "revisions": "unlimited",
+      "evidence_url": "https://www.fiverr.com/sndiip/modern-custom-creative-unique-corporate-flyer-eddm-postcard-rack-card-design-24",
+      "status": "backup_candidate"
+    },
+    {
+      "platform": "Fiverr",
+      "name": "kwekugraphix",
+      "starting_price": 5,
+      "delivery_hours": 24,
+      "revisions": "unlimited",
+      "response_time": "1 hour",
+      "evidence_url": "https://www.fiverr.com/kwekugraphix/do-creative-and-unique-flyer-design",
+      "status": "backup_candidate"
+    }
+  ]
+}
