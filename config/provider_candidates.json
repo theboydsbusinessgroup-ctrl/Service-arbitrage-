@@ -76,6 +76,21 @@
       "response_time": "1 hour",
       "evidence_url": "https://www.fiverr.com/kwekugraphix/do-creative-and-unique-flyer-design",
       "status": "backup_candidate"
+    },
+    {
+      "platform": "Fiverr",
+      "name": "Aslam Uzzaman",
+      "handle": "aslam_73",
+      "starting_price": 10,
+      "observed_total_checkout": 14.05,
+      "delivery_hours": 24,
+      "revisions": 5,
+      "print_ready": true,
+      "web_ready": true,
+      "evidence_url": "https://www.fiverr.com/aslam_73/do-business-flyer-banner-design-services-for-your-company",
+      "status": "test_order_placed_validation_pending"
     }
-  ]
+  ],
+  "active_validation_provider": "aslam_73",
+  "validation_state": "awaiting_delivery"
 }
