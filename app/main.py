@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, EmailStr, Field
+from pathlib import Path
+import json
 
 app = FastAPI(title='Service Arbitrage Engine', version='0.2.0')
 
@@ -41,6 +43,18 @@ class OrderPreflight(BaseModel):
     website_or_phone: str = ''
     fulfillment_cost_estimate: float = Field(default=35.0, ge=0)
 
+APPROVED_PROVIDER_STATUSES = {'approved', 'production_approved'}
+MIN_APPROVED_PROVIDERS = 2
+
+def provider_readiness():
+    path = Path(__file__).resolve().parent.parent / 'config' / 'provider_candidates.json'
+    try:
+        roster = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return {'approved_provider_count': 0, 'required_provider_count': MIN_APPROVED_PROVIDERS, 'payment_ready': False}
+    approved = [p for p in roster.get('candidates', []) if p.get('status') in APPROVED_PROVIDER_STATUSES]
+    return {'approved_provider_count': len(approved), 'required_provider_count': MIN_APPROVED_PROVIDERS, 'payment_ready': len(approved) >= MIN_APPROVED_PROVIDERS}
+
 def margin_result(req: MarginRequest):
     contribution = req.sale_price - req.fulfillment_cost - req.payment_fees - req.other_costs
     margin_pct = contribution / req.sale_price * 100
@@ -62,8 +76,15 @@ def rank_providers(providers: list[Provider]):
     ranked=sorted(eligible,key=lambda p:(((p.quality_score/100)*(p.reliability_score/100))/max(p.cost,1))*(1/max(p.sla_hours,1)),reverse=True)
     return {'eligible_count':len(ranked),'providers':ranked}
 
+@app.get('/payment/readiness')
+def payment_readiness():
+    return provider_readiness()
+
 @app.post('/orders/preflight')
 def order_preflight(order: OrderPreflight):
+    readiness = provider_readiness()
+    if not readiness['payment_ready']:
+        raise HTTPException(status_code=409, detail=f"Payment remains disabled until {MIN_APPROVED_PROVIDERS} providers are production-approved; currently {readiness['approved_provider_count']} approved.")
     if order.fulfillment_cost_estimate > OFFER['fulfillment_ceiling']:
         raise HTTPException(status_code=409, detail='Fulfillment estimate exceeds the $35 ceiling; reprice or reject before accepting payment.')
     result=margin_result(MarginRequest(sale_price=OFFER['sale_price'],fulfillment_cost=order.fulfillment_cost_estimate,payment_fees=OFFER['assumed_payment_fees'],minimum_contribution=OFFER['minimum_contribution']))
