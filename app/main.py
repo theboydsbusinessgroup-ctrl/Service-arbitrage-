@@ -45,6 +45,8 @@ class OrderPreflight(BaseModel):
 
 APPROVED_PROVIDER_STATUSES = {'approved', 'production_approved'}
 MIN_APPROVED_PROVIDERS = 2
+MIN_PROVIDER_SCORE = 85
+MAX_PROVIDER_SLA_HOURS = 72
 
 def provider_readiness():
     path = Path(__file__).resolve().parent.parent / 'config' / 'provider_candidates.json'
@@ -72,7 +74,10 @@ def margin_check(req: MarginRequest): return margin_result(req)
 
 @app.post('/providers/rank')
 def rank_providers(providers: list[Provider]):
-    eligible=[p for p in providers if p.cost <= OFFER['fulfillment_ceiling']]
+    eligible=[p for p in providers if p.cost <= OFFER['fulfillment_ceiling']
+              and p.quality_score >= MIN_PROVIDER_SCORE
+              and p.reliability_score >= MIN_PROVIDER_SCORE
+              and p.sla_hours <= MAX_PROVIDER_SLA_HOURS]
     ranked=sorted(eligible,key=lambda p:(((p.quality_score/100)*(p.reliability_score/100))/max(p.cost,1))*(1/max(p.sla_hours,1)),reverse=True)
     return {'eligible_count':len(ranked),'providers':ranked}
 
